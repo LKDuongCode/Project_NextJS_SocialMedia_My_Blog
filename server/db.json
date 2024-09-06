@@ -1,0 +1,124 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "role": "user",
+      "status": "active",
+      "userName": "john_doe",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "avatar": "https://example.com/avatar1.jpg",
+      "banner": "https://example.com/banner1.jpg",
+      "bio": "Lorem ipsum dolor sit amet.",
+      "following": [
+        { "id": 2, "follow_at": "01/01/2024" },
+        { "id": 3, "follow_at": "02/01/2024" }
+      ],
+      "followers": [
+        { "id": 4, "follow_at": "03/01/2024" },
+        { "id": 5, "follow_at": "04/01/2024" }
+      ],
+      "groups": [],
+      "lastLogin": "05/09/2024",
+      "password": "hashed_password_1",
+      "phoneNumber": "+1234567890",
+      "curAddress": { "city": "New York", "country": "USA" },
+      "comeFrom": { "country": "USA", "city": "Los Angeles" },
+      "create_at": "01/01/2023",
+      "dob": "01/01/1990",
+      "notifications": [
+        { "id": 1, "type": "follow", "createdAt": "05/09/2024", "read": false },
+        { "id": 2, "type": "comment", "createdAt": "06/09/2024", "read": true }
+      ],
+      "profileVisibility": "public"
+    },
+    {
+      "id": 2,
+      "role": "user",
+      "status": "suspended",
+      "userName": "jane_smith",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "avatar": "https://example.com/avatar2.jpg",
+      "banner": "https://example.com/banner2.jpg",
+      "bio": "Consectetur adipiscing elit.",
+      "following": [
+        { "id": 1, "follow_at": "01/01/2024" },
+        { "id": 3, "follow_at": "02/01/2024" }
+      ],
+      "followers": [
+        { "id": 4, "follow_at": "03/01/2024" },
+        { "id": 5, "follow_at": "04/01/2024" }
+      ],
+      "groups": [],
+      "lastLogin": "06/09/2024",
+      "password": "hashed_password_2",
+      "phoneNumber": "+0987654321",
+      "curAddress": { "city": "San Francisco", "country": "USA" },
+      "comeFrom": { "country": "USA", "city": "San Diego" },
+      "create_at": "02/01/2023",
+      "dob": "02/02/1991",
+      "notifications": [
+        { "id": 3, "type": "like", "createdAt": "06/09/2024", "read": false }
+      ],
+      "profileVisibility": "friends"
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "status": "active",
+      "userName": "alice_jones",
+      "name": "Alice Jones",
+      "email": "alice.jones@example.com",
+      "avatar": "https://example.com/avatar3.jpg",
+      "banner": "https://example.com/banner3.jpg",
+      "bio": "Sed do eiusmod tempor incididunt.",
+      "following": [
+        { "id": 1, "follow_at": "01/01/2024" },
+        { "id": 2, "follow_at": "02/01/2024" }
+      ],
+      "followers": [
+        { "id": 4, "follow_at": "03/01/2024" },
+        { "id": 5, "follow_at": "04/01/2024" }
+      ],
+      "groups": [],
+      "lastLogin": "07/09/2024",
+      "password": "hashed_password_3",
+      "phoneNumber": "+1122334455",
+      "curAddress": { "city": "Seattle", "country": "USA" },
+      "comeFrom": { "country": "USA", "city": "Portland" },
+      "create_at": "03/01/2023",
+      "dob": "03/03/1992",
+      "notifications": [
+        { "id": 4, "type": "admin", "createdAt": "07/09/2024", "read": false }
+      ],
+      "profileVisibility": "private"
+    },
+    {
+      "id": 4,
+      "role": "admin",
+      "status": "active",
+      "userName": "admin_user",
+      "name": "Admin User",
+      "email": "admin.user@example.com",
+      "avatar": "https://example.com/avatar4.jpg",
+      "banner": "https://example.com/banner4.jpg",
+      "bio": "Administrator account.",
+      "following": [{ "id": 1, "follow_at": "01/01/2024" }],
+      "followers": [{ "id": 2, "follow_at": "02/01/2024" }],
+      "groups": [],
+      "lastLogin": "08/09/2024",
+      "password": "hashed_password_4",
+      "phoneNumber": "+1222333444",
+      "curAddress": { "city": "Chicago", "country": "USA" },
+      "comeFrom": { "country": "USA", "city": "New York" },
+      "create_at": "04/01/2023",
+      "dob": "04/04/1985",
+      "notifications": [
+        { "id": 5, "type": "follow", "createdAt": "08/09/2024", "read": true },
+        { "id": 6, "type": "comment", "createdAt": "09/09/2024", "read": false }
+      ],
+      "profileVisibility": "public"
+    }
+  ]
+}
