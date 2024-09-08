@@ -2,28 +2,55 @@
 import Introduce from "@/components/users/auth/Introduce";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validateEmail } from "@/utils/validateEmail";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "@/services/users/getUsers.service";
+import { CombineType } from "@/interfaces/combineType";
+import { User } from "@/interfaces/userType";
 
 export default function Login() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  // todo : hứng giá trị nếu sign up từ section--------------------------
+  useEffect(() => {
+    const data = sessionStorage.getItem("signUpData");
+    if (data) {
+      const newData = JSON.parse(data);
+      const fromRegister = {
+        email: newData.email,
+        password: newData.password,
+      };
+      setCurrentUser(fromRegister);
+      sessionStorage.removeItem("signUpData"); // Xóa dữ liệu sau khi lấy
+    }
+  }, []);
+  // todo : hứng giá trị nếu sign up --------------------------
 
-  //state quản lí alert validate------------------------------------------------
+  //todo : state quản lí alert validate------------------------------------------------
   let [checkWrongPass, setCheckWrongPass] = useState<boolean>(false);
   let [checkValidate, setCheckValidate] = useState<any>({
     empty: false,
     emailFormat: false,
   });
   let [checkSucccess, setCheckSuccess] = useState<boolean>(false);
-  //state quản lí alert validate------------------------------------------------
+  //todo : state quản lí alert validate------------------------------------------------
 
-  // Tạo state kiểm soát trạng thái đăng nhập người dùng
+  // todo :Lấy danh sách users về từ Redux store------------------------------------
+  let users = useSelector((state: CombineType) => state.users.data);
+  useEffect(() => {
+    // Chỉ gọi fetchUsers một lần khi component được mount
+    dispatch(getUsers());
+  }, []);
+  // todo :Lấy danh sách users về từ Redux store------------------------------------
+
+  // todo : Tạo state kiểm soát trạng thái đăng nhập người dùng----------------------------------
   let [currentUser, setCurrentUser] = useState<any>({
     email: "",
     password: "",
     role: false,
   });
-  //hàm lấy thông tin người dùng
+  // todo : hàm lấy thông tin người dùng------------------------------
   const handleGetInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setCurrentUser((preUser: any) => ({
@@ -32,7 +59,7 @@ export default function Login() {
     }));
   };
 
-  // Hàm xử lý đăng nhập------------------------------------------------------------
+  // todo :Hàm xử lý đăng nhập------------------------------------------------------------
   const handleLoginUser = () => {
     // Kiểm tra trường trống
     if (currentUser.email === "" || currentUser.password === "") {
@@ -52,34 +79,35 @@ export default function Login() {
       return;
     }
 
-    // // Tìm người dùng
-    // const userFound = users.find(
-    //   (user: User) => user.email === currentUser.email && user.role === false
-    // );
+    // Tìm người dùng
+    const userFound = users.find(
+      (user: User) => user.email === currentUser.email && user.role === "user"
+    );
 
-    // if (!userFound) {
-    //   setCheckWrongPass(true);
-    //   return;
-    // }
+    if (!userFound) {
+      setCheckWrongPass(true);
+      return;
+    }
 
     // Kiểm tra mật khẩu
-    // if (userFound.password !== currentUser.password) {
-    //   setCheckWrongPass(true);
-    //   return;
-    // }
+    if (userFound.password !== currentUser.password) {
+      setCheckWrongPass(true);
+      return;
+    }
 
     // Đăng nhập thành công
-    // localStorage.setItem(
-    //   "curUserLogin",
-    //   JSON.stringify({ email: currentUser.email, role: currentUser.role })
-    // );
-    // setCheckSuccess(true);
-    // setTimeout(() => {
-    //   setCheckSuccess(false);
-    //   navigate("/");
-    // }, 1500);
+    localStorage.setItem(
+      "curUserLogin",
+      JSON.stringify({ email: currentUser.email, role: currentUser.role })
+    );
+    setCheckSuccess(true);
+    console.log("thanh cong");
+    setTimeout(() => {
+      setCheckSuccess(false);
+      router.push("/");
+    }, 1500);
   };
-  // Hàm xử lý đăng nhập------------------------------------------------------------
+  // todo :Hàm xử lý đăng nhập------------------------------------------------------------
   return (
     <>
       <div>
@@ -260,72 +288,72 @@ export default function Login() {
         ></Image>
       </div>
       {/* success modal */}
-      {/* {checkSucccess && (
-    <div
-      className={`relative ${checkSucccess ? "z-10" : "z-[-1]"}`}
-      aria-labelledby="modal-title"
-      role="dialog"
-      aria-modal="true"
-      onClick={() => setCheckSuccess(false)}
-    >
-      <div
-        className={`fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity ${
-          checkSucccess
-            ? "ease-out duration-300 opacity-100 "
-            : "ease-in duration-200 opacity-0"
-        } `}
-      ></div>
-
-      <div
-        className={`fixed inset-0 z-10 w-screen overflow-y-auto  ${
-          checkSucccess
-            ? "ease-out duration-300 opacity-100 "
-            : "ease-in duration-200 opacity-0 "
-        }`}
-      >
+      {checkSucccess && (
         <div
-          className={`flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0  ${
-            checkSucccess
-              ? "ease-out duration-300  translate-y-0 sm:scale-100 "
-              : "ease-in duration-200  translate-y-4 sm:translate-y-0 sm:scale-95 "
-          }`}
+          className={`relative ${checkSucccess ? "z-10" : "z-[-1]"}`}
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setCheckSuccess(false)}
         >
-          <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-96">
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 ">
-              <div className="sm:flex flex-col gap-4 sm:items-center">
-                <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <svg
-                    className="h-6 w-6 text-green-600"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-                <div className="mt-3 text-center sm:ml-4 sm:mt-0 ">
-                  <h3
-                    className="text-base text-center font-semibold leading-6 text-gray-900"
-                    id="modal-title"
-                  >
-                    Logged in successfully
-                  </h3>
-                  <div className="mt-2">
-                    <p className=" text-gray-500 text-center">
-                      Going to the home page....
-                    </p>
+          <div
+            className={`fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity ${
+              checkSucccess
+                ? "ease-out duration-300 opacity-100 "
+                : "ease-in duration-200 opacity-0"
+            } `}
+          ></div>
+
+          <div
+            className={`fixed inset-0 z-10 w-screen overflow-y-auto  ${
+              checkSucccess
+                ? "ease-out duration-300 opacity-100 "
+                : "ease-in duration-200 opacity-0 "
+            }`}
+          >
+            <div
+              className={`flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0  ${
+                checkSucccess
+                  ? "ease-out duration-300  translate-y-0 sm:scale-100 "
+                  : "ease-in duration-200  translate-y-4 sm:translate-y-0 sm:scale-95 "
+              }`}
+            >
+              <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-96">
+                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 ">
+                  <div className="sm:flex flex-col gap-4 sm:items-center">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <svg
+                        className="h-6 w-6 text-green-600"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 ">
+                      <h3
+                        className="text-base text-center font-semibold leading-6 text-gray-900"
+                        id="modal-title"
+                      >
+                        Logged in successfully
+                      </h3>
+                      <div className="mt-2">
+                        <p className=" text-gray-500 text-center">
+                          Going to the home page....
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  )} */}
+      )}
     </>
   );
 }

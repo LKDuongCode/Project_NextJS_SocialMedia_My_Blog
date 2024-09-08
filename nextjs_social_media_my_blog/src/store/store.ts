@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import usersReducer from "./features/users/usersReducer";
+import postsReducer from "./features/posts/postsReducer";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       users: usersReducer,
+      posts: postsReducer,
     },
   });
 };

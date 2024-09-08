@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { relative } from "path";
 import { useEffect, useState } from "react";
 export default function Banner1() {
+  const router = useRouter();
   return (
     <div className={`h-[700px] flex justify-center items-center relative`}>
       <div className="w-1/2 text-white flex flex-col gap-5 z-10">
@@ -14,18 +17,15 @@ export default function Banner1() {
           effortlessly.
         </p>
         <div className="flex items-center lg:order-2 gap-5 justify-center">
-          <a
-            href="#"
-            className=" bg-[#FBC77B] focus:ring-4 focus:ring-[#fde6c2] font-medium rounded text-base  px-8 py-4 mr-2 border-solid border-2 border-[#ffffff72] text-[#333] hover:mb-5"
+          <button
+            onClick={() => router.push("/whatNew")}
+            className=" bg-[#FBC77B] hover:ring-4 hover:ring-[#fde6c2] font-medium rounded text-base  px-8 py-4 mr-2 border-solid border-2 border-[#ffffff72] text-[#333] transform transition-transform duration-300 ease-in-out hover:scale-110"
           >
             What's new ?
-          </a>
-          <a
-            href="#"
-            className="text-white border-solid border-2 border-[#ffffff75] bg-[#333]  focus:ring-4 focus:ring-[#fde6c2] font-medium rounded text-base px-8 py-4 mr-2 hover:mb-5"
-          >
+          </button>
+          <button className="text-white border-solid border-2 border-[#ffffff75] bg-[#333]  hover:ring-4 hover:ring-[#fde6c2] font-medium rounded text-base px-8 py-4 mr-2 transform transition-transform duration-300 ease-in-out hover:scale-110">
             Learn More
-          </a>
+          </button>
         </div>
       </div>
       <Image

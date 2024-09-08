@@ -17,7 +17,7 @@ export default function Introduce() {
               className="rounded-full"
             ></Image>
           </p>
-          <p className="text-3xl font-bold  text-violet-100">My Blog</p>
+          <p className="text-3xl font-bold  text-violet-100">Bloom</p>
         </div>
         <div className="pl-8 flex flex-col gap-10">
           <div className="flex gap-2">

@@ -10,6 +10,7 @@ export type User = {
   bio: string;
   following: Following[];
   followers: Follower[];
+  fav: Favorite[];
   groups: [];
   lastLogin: string; // dd/mm/yyyy
   password: string;
@@ -31,6 +32,12 @@ export type User = {
 export type Following = {
   id: number;
   follow_at: string;
+};
+
+export type Favorite = {
+  id: number;
+  title: string;
+  fav_at: string;
 };
 
 export type Follower = {
