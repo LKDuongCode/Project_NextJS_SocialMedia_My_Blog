@@ -1,5 +1,10 @@
+import { User } from "@/interfaces/userType";
 import { addToUsers } from "@/services/users/addUsers.service";
 import { getUsers } from "@/services/users/getUsers.service";
+import {
+  lockAnUser,
+  unlockAnUser,
+} from "@/services/users/lock_unlonk_User.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 // khởi tạo
@@ -36,6 +41,20 @@ const usersReducer = createSlice({
       .addCase(addToUsers.fulfilled, (state, action) => {
         //thêm mới user
         state.data = [...state.data, action.payload];
+      })
+      .addCase(lockAnUser.fulfilled, (state, action) => {
+        //khóa user
+        let updatedUser = action.payload;
+        state.data = state.data.map((user: User) =>
+          user.id === updatedUser.id ? updatedUser : user
+        );
+      })
+      .addCase(unlockAnUser.fulfilled, (state, action) => {
+        //mở khóa user
+        let updatedUser = action.payload;
+        state.data = state.data.map((user: User) =>
+          user.id === updatedUser.id ? updatedUser : user
+        );
       });
   },
 });

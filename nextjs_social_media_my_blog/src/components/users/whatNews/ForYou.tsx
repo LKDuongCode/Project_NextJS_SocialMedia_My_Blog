@@ -26,7 +26,7 @@ export default function ForYou() {
     setUsersFounded(searchUsersByName(valueGot, users));
   };
   return (
-    <div className=" w-2/6 fixed right-0 flex flex-col gap-5 rounded py-5 ">
+    <div className=" w-2/6 fixed right-0 flex flex-col gap-5 rounded py-5 bg-[#333] h-max pb-28 ">
       {/* ///search----- */}
       <div>
         <div className="max-w-md mx-auto">

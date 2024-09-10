@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function Banner1() {
   const router = useRouter();
   return (
-    <div className={`h-[700px] flex justify-center items-center relative`}>
+    <div className={`h-[800px] flex justify-center items-center`}>
       <div className="w-1/2 text-white flex flex-col gap-5 z-10">
         <h1 className="font-bold text-6xl text-center">
           Bring Your Thoughts and Creativity to Life !
@@ -31,7 +31,8 @@ export default function Banner1() {
       <Image
         src={"/bannerHome1.webp"}
         alt={"banner1"}
-        fill
+        width={1600}
+        height={700}
         className="absolute"
       ></Image>
     </div>

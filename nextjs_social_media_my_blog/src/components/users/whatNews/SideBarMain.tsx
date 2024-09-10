@@ -1,7 +1,54 @@
+"use client";
+import { CombineType } from "@/interfaces/combineType";
+import { User } from "@/interfaces/userType";
+import { getUsers } from "@/services/users/getUsers.service";
+import { userTemplate } from "@/utils/templateUser";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function SideBarMain() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  //todo : lấy dữ liệu redux -----------------------------------------
+  //users
+  let users = useSelector((state: CombineType) => state.users.data);
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+  //todo : lấy dữ liệu redux -----------------------------------------
+
+  //todo :lấy user hiện tại-----------------------------------------------
+  let [curUserLogin, setCurUserLogin] = useState<User>(userTemplate);
+
+  useEffect(() => {
+    let curUser = localStorage.getItem("curUserLogin");
+    if (curUser) {
+      let userObj = JSON.parse(curUser);
+      // Kiểm tra nếu userObj là một đối tượng rỗng
+      if (Object.keys(userObj).length === 0 && userObj.constructor === Object) {
+        //chưa đăng nhập
+      } else {
+        let userFound = users.find((user: User) => {
+          return user.email === userObj.email;
+        });
+
+        // Set lại sau khi tìm thấy
+        if (userFound) {
+          setCurUserLogin(userFound);
+        }
+      }
+    } else {
+      // không đăng nhập
+    }
+  }, [users]);
+  //todo :lấy user hiện tại-----------------------------------------------
   return (
-    <div className=" w-1/6 flex flex-col fixed left-0 ">
-      <div className="flex gap-3 p-4 hover:bg-[#9f9f9f67] rounded">
+    <div className=" w-1/6 flex flex-col fixed left-0 bg-[#333] ">
+      <div
+        className="flex gap-3 p-4 hover:bg-[#9f9f9f67] rounded"
+        onClick={() => router.push("whatNew")}
+      >
         <svg
           className="h-6 w-6 text-stone-300"
           viewBox="0 0 24 24"
@@ -126,7 +173,10 @@ export default function SideBarMain() {
         </span>
       </div>
       <hr className="border-1 h-0.5 border-stone-600" />
-      <div className="flex gap-3 p-4 hover:bg-[#9f9f9f67] rounded">
+      <div
+        className="flex gap-3 p-4 hover:bg-[#9f9f9f67] rounded"
+        onClick={() => router.push(`profile`)}
+      >
         <svg
           className="h-6 w-6 text-stone-300"
           width={24}

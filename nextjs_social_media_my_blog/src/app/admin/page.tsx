@@ -1,6 +1,7 @@
 // app/admin/layout.tsx
 
 import HeaderAd from "@/components/admin/home/HeaderAd";
+import SideBarAd from "@/components/admin/home/SideBarAd";
 import FooterUS from "@/components/users/home/FooterUS";
 import { ReactNode } from "react";
 
@@ -12,7 +13,10 @@ export default function AdminLayout({ children }: LayoutProps) {
   return (
     <>
       <HeaderAd></HeaderAd>
-      <main>{children}</main>
+      <main className="flex gap-5">
+        <SideBarAd></SideBarAd>
+        {children}
+      </main>
       <FooterUS></FooterUS>
     </>
   );

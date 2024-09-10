@@ -1,49 +1,37 @@
 "use client";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
+import AddingStatus from "@/components/users/whatNews/AddingStatus";
 import UserHome from "../page";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "@/services/users/getUsers.service";
+import { useRouter } from "next/navigation";
 import { CombineType } from "@/interfaces/combineType";
 import { User } from "@/interfaces/userType";
-import { getPosts } from "@/services/posts/getPosts.service";
-import { Post } from "@/interfaces/postType";
-import { addToPosts } from "@/services/posts/addPosts";
 import { userTemplate } from "@/utils/templateUser";
-import StoriesOthers from "@/components/users/whatNews/StoriesOthers";
-import AddingStatus from "@/components/users/whatNews/AddingStatus";
+import { getPosts } from "@/services/posts/getPosts.service";
+import { generatePostsByUserId } from "@/utils/filterPosts";
+import { Post } from "@/interfaces/postType";
 import { searchUserById } from "@/utils/searchDependOnId";
-import SideBarMain from "@/components/users/whatNews/SideBarMain";
-import ForYou from "@/components/users/whatNews/ForYou";
-import { filterPosts } from "@/utils/filterPosts";
 
-export default function WhatNew() {
+export default function ProfileUS() {
+  const router = useRouter();
   const dispatch = useDispatch();
-  //state kiểm tra trnagj thái đăng nhập
-  let [checkLogin, setCheckLogin] = useState<boolean>(false);
-  // todo :Lấy  từ Redux store------------------------------------
+  //todo : lấy dữ liệu redux -----------------------------------------
+  //users
   let users = useSelector((state: CombineType) => state.users.data);
   let posts = useSelector((state: CombineType) => state.posts.data);
   useEffect(() => {
-    // Chỉ gọi fetchUsers một lần khi component được mount
     dispatch(getUsers());
     dispatch(getPosts());
-  }, []);
-
-  const [postsFiltered, setPostsFiltered] = useState<any>([]);
-  //sau khi pots cos dữ liệu thì lọc những bài viết ẩn ra
-  useEffect(() => {
-    if (posts.length > 0) {
-      setPostsFiltered(filterPosts(posts, "shown"));
-    }
-  }, [posts]);
-  // todo :Lấy  từ Redux store------------------------------------
+  }, [dispatch]);
+  //todo : lấy dữ liệu redux -----------------------------------------
 
   //todo :lấy user hiện tại-----------------------------------------------
   let [curUserLogin, setCurUserLogin] = useState<User>(userTemplate);
+
   useEffect(() => {
     let curUser = localStorage.getItem("curUserLogin");
-
     if (curUser) {
       let userObj = JSON.parse(curUser);
       // Kiểm tra nếu userObj là một đối tượng rỗng
@@ -57,22 +45,22 @@ export default function WhatNew() {
         // Set lại sau khi tìm thấy
         if (userFound) {
           setCurUserLogin(userFound);
-          setCheckLogin(true);
         }
       }
     } else {
-      setCheckLogin(false);
+      // không đăng nhập
     }
   }, [users]);
   //todo :lấy user hiện tại-----------------------------------------------
 
-  // todo : ẩn hiện thông tin dài-----------------
-  // const [isExpanded, setIsExpanded] = useState(false);
-
-  // const handleToggle = () => {
-  //   setIsExpanded(!isExpanded);
-  // };
-  // todo : ẩn hiện thông tin dài-----------------
+  //todo : lấy các bài post bản thân đăng -------------------------------
+  const [myPosts, setMyPosts] = useState<any>([]);
+  useEffect(() => {
+    if (posts.length > 0) {
+      setMyPosts(generatePostsByUserId(posts, curUserLogin.id));
+    }
+  }, [posts]);
+  //todo : lấy các bài post bản thân đăng -------------------------------
 
   //tìm kiếm hình ảnh dựa trên id để render
   const searchUserRender = (id: number, ask: "avatar" | "name") => {
@@ -81,46 +69,137 @@ export default function WhatNew() {
       if (ask === "name") return searchUserById(id, users)?.name;
     }
   };
-
   return (
     <UserHome>
-      <div className="pt-20 flex gap-4 ">
-        {/* main------------------------------- */}
-        <div className="w-3/ flex flex-col gap-5 ml-72 ">
-          <StoriesOthers></StoriesOthers>
-          <AddingStatus></AddingStatus>
-          {/* render */}
-          <div className="flex justify-between">
-            <p className="font-mono text-stone-400 text-lg">All</p>
-            <p>
-              <svg
-                className="h-6 w-6 text-stone-400"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {" "}
-                <line x1={4} y1={21} x2={4} y2={14} />{" "}
-                <line x1={4} y1={10} x2={4} y2={3} />{" "}
-                <line x1={12} y1={21} x2={12} y2={12} />{" "}
-                <line x1={12} y1={8} x2={12} y2={3} />{" "}
-                <line x1={20} y1={21} x2={20} y2={16} />{" "}
-                <line x1={20} y1={12} x2={20} y2={3} />{" "}
-                <line x1={1} y1={14} x2={7} y2={14} />{" "}
-                <line x1={9} y1={8} x2={15} y2={8} />{" "}
-                <line x1={17} y1={16} x2={23} y2={16} />
-              </svg>
-            </p>
-          </div>
-          <hr className="border-1 h-0.5 border-stone-400" />
+      <div>
+        <div className="mx-auto  w-[700px] ml-72  ">
+          {/* body------------------------------------------------ */}
+          <div className="overflow-hidden rounded-sm  bg-[#333] shadow-default text-[#eee]">
+            <div className=" z-20 h-72 md:h-65">
+              <img
+                src={curUserLogin.banner}
+                alt="profile cover"
+                className="h-full w-full rounded-tl-md rounded-tr-md object-cover object-center"
+              />
+            </div>
+            <div className="px-4 pb-6 flex justify-between ">
+              {/* thêm ảnh đại diện */}
+              <div className="flex gap-5">
+                <div className="relative z-10 -top-5 h-30 w-max rounded-full bg-white/20  backdrop-blur p-1 flex">
+                  <div className="relative drop-shadow-2 ">
+                    <img
+                      src={curUserLogin.avatar}
+                      alt="profile"
+                      className="size-24 rounded-full"
+                    />
+                    <label
+                      htmlFor="profile"
+                      className="absolute bottom-0 right-0 flex  cursor-pointer items-center justify-center rounded-full bg-indigo-400 p-1  text-white hover:bg-opacity-90  "
+                    >
+                      <svg
+                        className="fill-current size-4"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
+                          fill=""
+                        />
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
+                          fill=""
+                        />
+                      </svg>
+                      <input
+                        type="file"
+                        name="profile"
+                        id="profile"
+                        className="sr-only"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <p className="text-2xl font-semibold">{curUserLogin.name}</p>
+                  <p>@{curUserLogin.userName}</p>
+                </div>
+              </div>
+              <div className="flex gap-5 mt-5">
+                <button className="bg-[#91919144] size-max px-4 py-1 rounded flex items-center gap-1 text-sm font-medium justify-center">
+                  <svg
+                    className="size-5 "
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {" "}
+                    <path stroke="none" d="M0 0h24v24H0z" />{" "}
+                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />{" "}
+                    <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                  </svg>
+                  <p>Edit profile</p>
+                </button>
+                <button className="bg-[#91919144] size-max px-4 py-1 rounded flex items-center gap-1 text-sm font-medium justify-center">
+                  <svg
+                    className="h-5 w-5 "
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {" "}
+                    <circle cx={18} cy={5} r={3} />{" "}
+                    <circle cx={6} cy={12} r={3} />{" "}
+                    <circle cx={18} cy={19} r={3} />{" "}
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />{" "}
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                  </svg>
 
-          {postsFiltered?.map((post: Post) => {
+                  <p>Share</p>
+                </button>
+              </div>
+            </div>
+          </div>
+          <AddingStatus></AddingStatus>
+          {/* nav */}
+          <ul className="flex gap-5 pb-5">
+            <li className=" py-4 px-4  font-bold text-[#eee] border-b-4 border-b-amber-300 cursor-pointer">
+              Posts
+            </li>
+            <li className=" py-4 px-4  font-bold text-[#eee] cursor-pointer">
+              Biography
+            </li>
+            <li className=" py-4 px-4  font-bold text-[#eee] cursor-pointer">
+              Friends
+            </li>
+            <li className=" py-4 px-4  font-bold text-[#eee] cursor-pointer">
+              Photos
+            </li>
+            <li className=" py-4 px-4  font-bold text-[#eee] cursor-pointer">
+              Followers
+            </li>
+            <li className=" py-4 px-4  font-bold text-[#eee] cursor-pointer">
+              Followings
+            </li>
+          </ul>
+          <hr className="border-1 h-0.5 border-stone-400" />
+          {/* render */}
+          {myPosts?.map((post: Post) => {
             return (
               <div
-                className="bg-[#4E4F50] text-[#eee] rounded-md"
+                className="bg-[#4E4F50] text-[#eee] rounded-md mt-5"
                 key={post.id}
               >
                 <div className="flex justify-between px-3 py-2">
@@ -143,7 +222,15 @@ export default function WhatNew() {
                       <p className="text-sm font-mono"> {post.create_at}</p>
                     </div>
                   </div>
-                  <div className="flex gap-5">
+                  <div className="flex gap-5 items-center pb-5">
+                    {!post.display && (
+                      <p
+                        className="text-xs text-red-400 font-medium hover:underline cursor-pointer"
+                        onClick={() => router.push("/support")}
+                      >
+                        Post has been hidden by admin
+                      </p>
+                    )}
                     <svg
                       className="h-6 w-6 text-stone-300"
                       fill="none"
@@ -294,7 +381,6 @@ export default function WhatNew() {
             );
           })}
         </div>
-        {/* main---------------------------- */}
       </div>
     </UserHome>
   );
