@@ -4,121 +4,217 @@
       "id": 1,
       "role": "user",
       "status": "active",
-      "userName": "john_doe",
+      "userName": "johndoe",
       "name": "John Doe",
       "email": "john.doe@example.com",
-      "avatar": "https://example.com/avatar1.jpg",
-      "banner": "https://example.com/banner1.jpg",
-      "bio": "Lorem ipsum dolor sit amet.",
-      "following": [
-        { "id": 2, "follow_at": "01/01/2024" },
-        { "id": 3, "follow_at": "02/01/2024" }
-      ],
-      "followers": [
-        { "id": 4, "follow_at": "03/01/2024" },
-        { "id": 5, "follow_at": "04/01/2024" }
-      ],
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/nextjs-lekhanhduong.appspot.com/o/users%2Favatars%2Fple1.webp?alt=media&token=5f527ce9-d7a1-4faa-a8b7-230f28a09688",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/nextjs-lekhanhduong.appspot.com/o/users%2Favatars%2Fple1.webp?alt=media&token=5f527ce9-d7a1-4faa-a8b7-230f28a09688",
+      "bio": "Software engineer. Passionate about coding and technology.",
+      "following": [{ "id": 2, "follow_at": "01/01/2023" }],
+      "followers": [{ "id": 3, "follow_at": "01/02/2023" }],
+      "fav": [{ "id": 1, "title": "My Favorite Book", "fav_at": "15/09/2023" }],
       "groups": [],
-      "lastLogin": "05/09/2024",
-      "password": "hashed_password_1",
-      "phoneNumber": "+1234567890",
-      "curAddress": { "city": "New York", "country": "USA" },
-      "comeFrom": { "country": "USA", "city": "Los Angeles" },
-      "create_at": "01/01/2023",
-      "dob": "01/01/1990",
+      "lastLogin": "07/09/2024",
+      "password": "Password123",
+      "phoneNumber": "0912345678",
+      "curAddress": {
+        "city": "Hanoi",
+        "country": "Vietnam"
+      },
+      "comeFrom": {
+        "country": "Vietnam",
+        "city": "Hanoi"
+      },
+      "create_at": "01/01/2020",
+      "dob": "15/05/1990",
       "notifications": [
-        { "id": 1, "type": "follow", "createdAt": "05/09/2024", "read": false },
-        { "id": 2, "type": "comment", "createdAt": "06/09/2024", "read": true }
+        {
+          "id": 1,
+          "type": "follow",
+          "createdAt": "07/09/2024",
+          "read": false
+        }
       ],
       "profileVisibility": "public"
     },
     {
       "id": 2,
-      "role": "user",
-      "status": "suspended",
-      "userName": "jane_smith",
-      "name": "Jane Smith",
-      "email": "jane.smith@example.com",
-      "avatar": "https://example.com/avatar2.jpg",
-      "banner": "https://example.com/banner2.jpg",
-      "bio": "Consectetur adipiscing elit.",
-      "following": [
-        { "id": 1, "follow_at": "01/01/2024" },
-        { "id": 3, "follow_at": "02/01/2024" }
-      ],
-      "followers": [
-        { "id": 4, "follow_at": "03/01/2024" },
-        { "id": 5, "follow_at": "04/01/2024" }
-      ],
-      "groups": [],
-      "lastLogin": "06/09/2024",
-      "password": "hashed_password_2",
-      "phoneNumber": "+0987654321",
-      "curAddress": { "city": "San Francisco", "country": "USA" },
-      "comeFrom": { "country": "USA", "city": "San Diego" },
-      "create_at": "02/01/2023",
-      "dob": "02/02/1991",
-      "notifications": [
-        { "id": 3, "type": "like", "createdAt": "06/09/2024", "read": false }
-      ],
-      "profileVisibility": "friends"
-    },
-    {
-      "id": 3,
-      "role": "user",
+      "role": "admin",
       "status": "active",
-      "userName": "alice_jones",
-      "name": "Alice Jones",
-      "email": "alice.jones@example.com",
-      "avatar": "https://example.com/avatar3.jpg",
-      "banner": "https://example.com/banner3.jpg",
-      "bio": "Sed do eiusmod tempor incididunt.",
-      "following": [
-        { "id": 1, "follow_at": "01/01/2024" },
-        { "id": 2, "follow_at": "02/01/2024" }
-      ],
-      "followers": [
-        { "id": 4, "follow_at": "03/01/2024" },
-        { "id": 5, "follow_at": "04/01/2024" }
+      "userName": "janedoe",
+      "name": "Jane Doe",
+      "email": "jane.doe@example.com",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/nextjs-lekhanhduong.appspot.com/o/users%2Favatars%2Fple2.webp?alt=media&token=8e779b5b-2b2e-4fc6-8faa-cd5333f5c763",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/nextjs-lekhanhduong.appspot.com/o/users%2Favatars%2Fple2.webp?alt=media&token=8e779b5b-2b2e-4fc6-8faa-cd5333f5c763",
+      "bio": "Admin. Enjoying managing the community and helping users.",
+      "following": [{ "id": 1, "follow_at": "01/03/2023" }],
+      "followers": [{ "id": 4, "follow_at": "01/04/2023" }],
+      "fav": [
+        { "id": 2, "title": "My Favorite Movie", "fav_at": "20/09/2023" }
       ],
       "groups": [],
       "lastLogin": "07/09/2024",
-      "password": "hashed_password_3",
-      "phoneNumber": "+1122334455",
-      "curAddress": { "city": "Seattle", "country": "USA" },
-      "comeFrom": { "country": "USA", "city": "Portland" },
-      "create_at": "03/01/2023",
-      "dob": "03/03/1992",
+      "password": "Admin123",
+      "phoneNumber": "0923456789",
+      "curAddress": {
+        "city": "Ho Chi Minh City",
+        "country": "Vietnam"
+      },
+      "comeFrom": {
+        "country": "Vietnam",
+        "city": "Ho Chi Minh City"
+      },
+      "create_at": "01/02/2021",
+      "dob": "20/10/1985",
       "notifications": [
-        { "id": 4, "type": "admin", "createdAt": "07/09/2024", "read": false }
+        {
+          "id": 2,
+          "type": "comment",
+          "createdAt": "07/09/2024",
+          "read": true
+        }
       ],
       "profileVisibility": "private"
     },
     {
-      "id": 4,
-      "role": "admin",
-      "status": "active",
-      "userName": "admin_user",
-      "name": "Admin User",
-      "email": "admin.user@example.com",
-      "avatar": "https://example.com/avatar4.jpg",
-      "banner": "https://example.com/banner4.jpg",
-      "bio": "Administrator account.",
-      "following": [{ "id": 1, "follow_at": "01/01/2024" }],
-      "followers": [{ "id": 2, "follow_at": "02/01/2024" }],
+      "id": 3,
+      "role": "user",
+      "status": "suspended",
+      "userName": "bobsmith",
+      "name": "Bob Smith",
+      "email": "bob.smith@example.com",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/nextjs-lekhanhduong.appspot.com/o/users%2Favatars%2Fple3.webp?alt=media&token=6dbb04d9-41b9-48bd-aa84-ced295afd497",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/nextjs-lekhanhduong.appspot.com/o/users%2Favatars%2Fple3.webp?alt=media&token=6dbb04d9-41b9-48bd-aa84-ced295afd497",
+      "bio": "Freelancer. Love outdoor activities and photography.",
+      "following": [],
+      "followers": [{ "id": 1, "follow_at": "01/05/2023" }],
+      "fav": [],
       "groups": [],
-      "lastLogin": "08/09/2024",
-      "password": "hashed_password_4",
-      "phoneNumber": "+1222333444",
-      "curAddress": { "city": "Chicago", "country": "USA" },
-      "comeFrom": { "country": "USA", "city": "New York" },
-      "create_at": "04/01/2023",
-      "dob": "04/04/1985",
+      "lastLogin": "07/09/2024",
+      "password": "BobSmith456",
+      "phoneNumber": "0934567890",
+      "curAddress": {
+        "city": "Da Nang",
+        "country": "Vietnam"
+      },
+      "comeFrom": {
+        "country": "Vietnam",
+        "city": "Da Nang"
+      },
+      "create_at": "01/03/2021",
+      "dob": "05/07/1988",
       "notifications": [
-        { "id": 5, "type": "follow", "createdAt": "08/09/2024", "read": true },
-        { "id": 6, "type": "comment", "createdAt": "09/09/2024", "read": false }
+        {
+          "id": 3,
+          "type": "like",
+          "createdAt": "07/09/2024",
+          "read": false
+        }
+      ],
+      "profileVisibility": "friends"
+    },
+    {
+      "id": 4,
+      "role": "user",
+      "status": "banned",
+      "userName": "alicejohnson",
+      "name": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "avatar": "https://example.com/avatars/alicejohnson.jpg",
+      "banner": "https://example.com/banners/alicejohnson.jpg",
+      "bio": "Travel enthusiast. Sharing my adventures and experiences.",
+      "following": [{ "id": 5, "follow_at": "01/06/2023" }],
+      "followers": [],
+      "fav": [
+        { "id": 3, "title": "My Favorite Travel Spot", "fav_at": "25/09/2023" }
+      ],
+      "groups": [],
+      "lastLogin": "07/09/2024",
+      "password": "Alice1234",
+      "phoneNumber": "0945678901",
+      "curAddress": {
+        "city": "Hue",
+        "country": "Vietnam"
+      },
+      "comeFrom": {
+        "country": "Vietnam",
+        "city": "Hue"
+      },
+      "create_at": "01/04/2021",
+      "dob": "12/12/1992",
+      "notifications": [
+        {
+          "id": 4,
+          "type": "admin",
+          "createdAt": "07/09/2024",
+          "read": true
+        }
+      ],
+      "profileVisibility": "private"
+    },
+    {
+      "id": 5,
+      "role": "user",
+      "status": "active",
+      "userName": "charliedavis",
+      "name": "Charlie Davis",
+      "email": "charlie.davis@example.com",
+      "avatar": "https://example.com/avatars/charliedavis.jpg",
+      "banner": "https://example.com/banners/charliedavis.jpg",
+      "bio": "Tech blogger. Writing about the latest in tech and gadgets.",
+      "following": [],
+      "followers": [],
+      "fav": [
+        { "id": 4, "title": "Latest Tech Gadget", "fav_at": "30/09/2023" }
+      ],
+      "groups": [],
+      "lastLogin": "07/09/2024",
+      "password": "Charlie2024",
+      "phoneNumber": "0956789012",
+      "curAddress": {
+        "city": "Nha Trang",
+        "country": "Vietnam"
+      },
+      "comeFrom": {
+        "country": "Vietnam",
+        "city": "Nha Trang"
+      },
+      "create_at": "01/05/2021",
+      "dob": "23/08/1991",
+      "notifications": [
+        {
+          "id": 5,
+          "type": "comment",
+          "createdAt": "07/09/2024",
+          "read": false
+        }
       ],
       "profileVisibility": "public"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "create_at": "01/04/2021",
+      "user_id": 2,
+      "content": {
+        "title": "Sunset at the Beach",
+        "media": {
+          "type": "image",
+          "url": "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        }
+      },
+      "status": "public",
+      "engagement": {
+        "shares": [],
+        "reactions": {
+          "like": [1, 2],
+          "love": [4, 5],
+          "wow": [3],
+          "sad": [],
+          "angry": []
+        }
+      }
     }
   ]
 }

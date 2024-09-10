@@ -1,12 +1,20 @@
 "use client";
 
 import Introduce from "@/components/users/auth/Introduce";
+import { CombineType } from "@/interfaces/combineType";
+import { User } from "@/interfaces/userType";
+import { addToUsers } from "@/services/users/addUsers.service";
+import { getUsers } from "@/services/users/getUsers.service";
+import { extractNameFromEmail } from "@/utils/extractNameFromEmail";
+import { getCurrentDateFormatted } from "@/utils/generateDateFormat";
 import { validateEmail } from "@/utils/validateEmail";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 export default function SignUp() {
   const router = useRouter();
+  const dispatch = useDispatch();
   //state quản lí alert-------------------------------------------------------------
   let [checkSucccess, setCheckSuccess] = useState<boolean>(false);
   let [validateForm, setValidateForm] = useState<any>({
@@ -18,12 +26,20 @@ export default function SignUp() {
   });
   //state quản lí alert-------------------------------------------------------------
 
+  //lấy dữ liệu từ redux-----------------------------------------------------
+  let users = useSelector((state: CombineType) => state.users.data);
+  useEffect(() => {
+    // Chỉ gọi fetchUsers một lần khi component được mount
+    dispatch(getUsers());
+  }, []);
+  //lấy dữ liệu từ redux-----------------------------------------------------
+
   //lấy dữ liệu từ người dùng-------------------------------------------------------
   let [curSignUp, setCurSignUp] = useState<any>({
     email: "",
     password: "",
     coPassword: "",
-    role: false,
+    role: "user",
   });
 
   const handleGetInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +51,7 @@ export default function SignUp() {
   };
   //lấy dữ liệu từ người dùng-------------------------------------------------------
 
-  //hàm xử lí đăng kí--------------------------------------------------------------------------
+  // todo : hàm xử lí đăng kí--------------------------------------------------------------------------
   const handleSignUp = () => {
     //validate trường trống
     if (
@@ -59,17 +75,18 @@ export default function SignUp() {
       return;
     }
 
-    //validate email đã tồn tại
-    // let userFound = users.find(
-    //   (user: User) => user.email === curSignUp.email && user.role === false
-    // );
-    // if (userFound) {
-    //   setValidateForm((prev: any) => ({
-    //     ...prev,
-    //     existEmail: true,
-    //   }));
-    //   return;
-    // }
+    // validate email đã tồn tại
+    let userFound = users.find(
+      (user: User) => user.email === curSignUp.email && user.role === "user"
+    );
+    if (userFound) {
+      setValidateForm((prev: any) => ({
+        ...prev,
+        existEmail: true,
+      }));
+      return;
+    }
+
     //validate trùng mật khảu
     if (curSignUp.password !== curSignUp.coPassword) {
       setValidateForm((prev: any) => ({
@@ -79,28 +96,46 @@ export default function SignUp() {
       return;
     }
 
-    //thành công
+    //thành công User
     let newAcc: any = {
-      user_name: "newAcc",
+      role: "user",
+      fav: [],
+      status: "active",
+      userName: extractNameFromEmail(curSignUp.email),
+      name: "Your Name",
       email: curSignUp.email,
+      avatar: "https://vectorified.com/images/unknown-avatar-icon-6.jpg",
+      banner: "https://www.caspianpolicy.org/no-image.png",
+      bio: "write some describe about you !",
+      following: [],
+      followers: [],
+      groups: [],
+      lastLogin: getCurrentDateFormatted(), // dd/mm/yyyy
       password: curSignUp.password,
-      role: false,
-      carts: [],
-      favorites: [],
-      status: true,
-      full_name: "newAcc fullname",
-      avata: "https://vectorified.com/images/unknown-avatar-icon-6.jpg",
-      phone: "unknow",
-      address: "unknow",
-      created_at: new Date().toDateString(),
-      updated_at: "",
+      phoneNumber: "empty",
+      curAddress: {
+        city: "empty",
+        country: "empty",
+      },
+      comeFrom: {
+        country: "empty",
+        city: "empty",
+      },
+      create_at: getCurrentDateFormatted(),
+      dob: "empty", // date of birth
+      notifications: [],
+      profileVisibility: "public",
     };
-    console.log(newAcc);
-    // dispatch(addToUsers(newAcc));
-    // navigate("/usersLogin", { state: curSignUp });
+    dispatch(addToUsers(newAcc));
+    setCheckSuccess(true);
+    setTimeout(() => {
+      setCheckSuccess(false);
+      sessionStorage.setItem("signUpData", JSON.stringify(curSignUp));
+      router.push("/login");
+    }, 1500);
   };
 
-  //hàm xử lí đăng kí--------------------------------------------------------------------------
+  // todo : hàm xử lí đăng kí--------------------------------------------------------------------------
   return (
     <>
       <div>

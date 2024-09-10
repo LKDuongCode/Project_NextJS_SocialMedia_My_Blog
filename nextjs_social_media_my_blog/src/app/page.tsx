@@ -1,24 +1,7 @@
-// import cpn-------------------------------------------------
-import Banner1 from "@/components/users/home/Banner1";
-import FooterUS from "@/components/users/home/FooterUS";
-import HeaderUS from "@/components/users/home/HeaderUS";
-//import cpn-------------------------------------------------------
+import LoadingHome from "@/components/effect/LoadingHome";
 
-// import logic and css-------------------------------------
+export default function Loading() {
+  // todo : khi truy cập lập tức chuyển đến home
 
-// import logic and css-------------------------------------
-
-export default function Home() {
-  return (
-    <div>
-      <HeaderUS></HeaderUS>
-      <section>
-        <Banner1></Banner1>
-        <div>what new</div>
-        <div>Topic</div>
-        <div>Top authors</div>
-      </section>
-      <FooterUS></FooterUS>
-    </div>
-  );
+  return <LoadingHome></LoadingHome>;
 }

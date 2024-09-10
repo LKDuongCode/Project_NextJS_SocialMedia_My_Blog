@@ -1,8 +1,12 @@
 "use client";
+/// import type and func--------------------------------------------------------
 import { CombineType } from "@/interfaces/combineType";
 import { User } from "@/interfaces/userType";
-import { getUsers } from "@/services/users/getUsers.service";
 import { validateEmail } from "@/utils/validateEmail";
+import { getUsers } from "@/services/users/getUsers.service";
+
+/// import type and func--------------------------------------------------------
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,32 +14,33 @@ import { useDispatch, useSelector } from "react-redux";
 export default function AdminLogin() {
   const router = useRouter();
 
-  //state alert validate----------------------------------------
+  // todo : state alert validate----------------------------------------
   let [validateForm, setValidateForm] = useState<any>({
     empty: false,
     wrongEmailOrPass: false,
     existAcc: false,
   });
-  let [checkSucccess, setCheckSuccess] = useState<boolean>(false);
-  //state alert validate----------------------------------------
 
-  // Lấy danh sách users về từ Redux store------------------------------------
+  let [checkSucccess, setCheckSuccess] = useState<boolean>(false);
+
+  /// state người dùng hiện tại
+  let [currentAdmin, setCurrentAdmin] = useState<any>({
+    email: "",
+    password: "",
+    role: "admin",
+  });
+  // todo : state alert validate----------------------------------------
+
+  // todo : Lấy danh sách users về từ Redux store------------------------------------
   let users = useSelector((state: CombineType) => state.users.data);
   const dispatch = useDispatch();
   useEffect(() => {
     // Chỉ gọi fetchUsers một lần khi component được mount
     dispatch(getUsers());
   }, []);
-  // Lấy danh sách users về từ Redux store------------------------------------
+  // todo : Lấy danh sách users về từ Redux store------------------------------------
 
-  // Tạo state kiểm soát trạng thái đăng nhập người dùng
-  let [currentAdmin, setCurrentAdmin] = useState<any>({
-    email: "",
-    password: "",
-    role: true,
-  });
-
-  // Hàm xử lý đăng nhập------------------------------------------------------------
+  // todo : Hàm xử lý đăng nhập------------------------------------------------------------
   const handleLoginAdmin = () => {
     //validate trống
     if (currentAdmin.email === "" || currentAdmin.password === "") {
@@ -76,18 +81,33 @@ export default function AdminLogin() {
     }
 
     //lưu vào local
-    // localStorage.setItem(
-    //   "curAdmin",
-    //   JSON.stringify({ email: currentAdmin.email, role: currentAdmin.role })
-    // );
-    // setCheckSuccess(true);
-    // setTimeout(() => {
-    //   setCheckSuccess(false);
-    //   navigate("/adminHome");
-    // }, 1500);
-    console.log("thành công");
+    localStorage.setItem(
+      "curAdmin",
+      JSON.stringify({ email: currentAdmin.email, role: currentAdmin.role })
+    );
+    setCheckSuccess(true);
+    setTimeout(() => {
+      setCheckSuccess(false);
+      router.push("/admin/dashboard");
+    }, 1500);
   };
-  // Hàm xử lý đăng nhập------------------------------------------------------------
+  // todo : Hàm xử lý đăng nhập------------------------------------------------------------
+
+  // todo : khi người dùng truy cập vào trang, kiểm tra local xem trước đó có đăng nhập ko -------------------------------------------
+  useEffect(() => {
+    let curAdmin = localStorage.getItem("curAdmin");
+    if (curAdmin) {
+      let adminObj = JSON.parse(curAdmin);
+      let adminFound = users.find((admin: User) => {
+        return admin.email === adminObj.email;
+      });
+      //set lại sau khi tìm thấy
+      if (adminFound) {
+        setCurrentAdmin(adminFound);
+      }
+    }
+  }, [users]);
+  // todo : khi người dùng truy cập vào trang, kiểm tra local xem trước đó có đăng nhập ko -------------------------------------------
 
   return (
     <section className="relative">
@@ -122,7 +142,7 @@ export default function AdminLogin() {
             ></Image>
           </a>
           <span className=" text-5xl font-semibold text-white absolute w-max ml-24">
-            My Blog
+            Bloom
           </span>
         </div>
 
@@ -278,9 +298,9 @@ export default function AdminLogin() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>

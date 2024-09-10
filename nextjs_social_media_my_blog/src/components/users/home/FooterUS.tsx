@@ -1,9 +1,7 @@
-import React from "react";
-
 export default function FooterUS() {
   return (
     <section>
-      <footer className="bg-[#333]">
+      <footer className="bg-[#333] border-t-2 border-solid border-[#535353]">
         <div className="mx-auto w-full max-w-screen-xl">
           <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
             <div>

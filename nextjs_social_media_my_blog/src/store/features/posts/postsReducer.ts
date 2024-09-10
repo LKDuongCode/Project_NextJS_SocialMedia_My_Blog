@@ -1,9 +1,9 @@
-import { addToUsers } from "@/services/users/addUsers.service";
-import { getUsers } from "@/services/users/getUsers.service";
+import { addToPosts } from "@/services/posts/addPosts";
+import { getPosts } from "@/services/posts/getPosts.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 // khởi tạo
-let initUsers: any = {
+let initPosts: any = {
   loading: false,
   data: [],
   error: null,
@@ -11,34 +11,34 @@ let initUsers: any = {
 
 //toàn bộ hàm xử lí được lấy từ folder service.
 //tạo function quản lí
-const usersReducer = createSlice({
-  name: "users",
-  initialState: initUsers,
+const postsReducer = createSlice({
+  name: "posts",
+  initialState: initPosts,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUsers.pending, (state, action) => {
+      .addCase(getPosts.pending, (state, action) => {
         // trạng thái chờ lấy dữ liệu
         state.loading = true;
         state.error = null;
       })
-      .addCase(getUsers.fulfilled, (state, action) => {
+      .addCase(getPosts.fulfilled, (state, action) => {
         //trạng thái lấy dữ liệu thành công
 
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(getUsers.rejected, (state, action) => {
+      .addCase(getPosts.rejected, (state, action) => {
         //trạng thái lấy dữ liệu thất bại
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(addToUsers.fulfilled, (state, action) => {
-        //thêm mới user
+      .addCase(addToPosts.fulfilled, (state, action) => {
+        //thêm mới
         state.data = [...state.data, action.payload];
       });
   },
 });
 
 //xuất
-export default usersReducer.reducer;
+export default postsReducer.reducer;

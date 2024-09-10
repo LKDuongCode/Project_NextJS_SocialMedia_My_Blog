@@ -1,0 +1,12 @@
+.addModal {
+  position: fixed; /* Vị trí cố định để modal luôn hiển thị trên màn hình */
+  top: 0;
+  left: 0;
+  width: 100%; /* Chiều rộng 100% của màn hình */
+  height: 100%; /* Chiều cao 100% của màn hình */
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền với độ mờ */
+  z-index: 9999; /* Độ sâu để hiển thị trên các phần tử khác */
+  display: flex; /* Hiển thị theo kiểu flex để căn giữa nội dung */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
