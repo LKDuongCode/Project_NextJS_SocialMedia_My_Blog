@@ -1,27 +1,27 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import DropDownAD from "./DropDownAD";
 import { useDispatch, useSelector } from "react-redux";
-import "@/styles/admin/addModal.module.scss";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { CombineType } from "@/interfaces/combineType";
 import { getUsers } from "@/services/users/getUsers.service";
-import { userTemplate } from "@/utils/templateUser";
 import { User } from "@/interfaces/userType";
+import { userTemplate } from "@/utils/templateUser";
 
-export default function HeaderAD() {
-  //state alert
-  let [checkDelete, setCheckDelete] = useState<boolean>(false);
-  let [checkLogin, setCheckLogin] = useState<boolean>(false);
-  const router = useRouter();
+export default function HeaderAd() {
   const dispatch = useDispatch();
+  const router = useRouter();
+  let [checkLogin, setCheckLogin] = useState<boolean>(false);
+  let [checkDelete, setCheckDelete] = useState<boolean>(false);
+
   // Lấy danh sách users về từ Redux store------------------------------------
   let users = useSelector((state: CombineType) => state.users.data);
+
   useEffect(() => {
     // Chỉ gọi fetchUsers một lần khi component được mount
     dispatch(getUsers());
   }, []);
-
   // Lấy danh sách users về từ Redux store------------------------------------
 
   //lấy user hiện tại-----------------------------------------------
@@ -29,22 +29,28 @@ export default function HeaderAD() {
   useEffect(() => {
     let curAdmin = localStorage.getItem("curAdmin");
     if (curAdmin) {
-      let adminObj = JSON.parse(curAdmin);
-      let adminFound = users.find((admin: User) => {
-        return admin.email === adminObj.email;
-      });
-      //set lại sau khi tìm thấy
-      if (adminFound) {
-        setCurAdminLogin(adminFound);
+      let userObj = JSON.parse(curAdmin);
+      // Kiểm tra nếu userObj là một đối tượng rỗng
+      if (Object.keys(userObj).length === 0 && userObj.constructor === Object) {
+        //chưa đăng nhập
+        setCheckLogin(true);
+      } else {
+        // đã đăng nhập
+        let adminFound = users.find((user: User) => {
+          return user.email === userObj.email;
+        });
+        // Set lại sau khi tìm thấy
+        if (adminFound) {
+          setCurAdminLogin(adminFound);
+          setCheckLogin(false);
+        }
       }
     } else {
-      //thông báo cần đăng nhập
-      setCheckLogin(false);
+      setCheckLogin(true);
     }
   }, [users]);
 
   //lấy user hiện tại-----------------------------------------------
-
   //xử lí nút đăng xuất
   const handleLogout = () => {
     setCheckDelete(true);
@@ -56,73 +62,6 @@ export default function HeaderAD() {
     router.push("/adLogin");
     setCheckDelete(false);
   };
-
-  let [searchTerm, setSearchTerm] = useState("");
-  let [filteredFuncs, setFilteredFuncs] = useState<any[]>([]);
-  //mảng mảng tính năng
-  let [func, setFunc] = useState<any>([
-    {
-      name: "Products Manage",
-      info: "Allowing admin to manage the product list",
-      ref: "adminUsersManage",
-    },
-    {
-      name: "Calendar",
-      info: "Manage and view the calendar events",
-      ref: "calendar",
-    },
-    {
-      name: "Dashboard",
-      info: "Overview of system statistics and data",
-      ref: "/adminHome",
-    },
-    {
-      name: "Users Manage",
-      info: "Manage user accounts and permissions",
-      ref: "adminUsersManage",
-    },
-    {
-      name: "Categories Manage",
-      info: "Manage product categories and organize them",
-      ref: "adminCategoriesManage",
-    },
-    {
-      name: "About us",
-      info: "Information about the company and team",
-      ref: "/terms",
-    },
-    {
-      name: "Terms and privacy",
-      info: "Terms of service and privacy policy",
-      ref: "/terms",
-    },
-    {
-      name: "Profile",
-      info: "View and edit your profile information",
-      ref: "detailAcc",
-    },
-  ]);
-
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  useEffect(() => {
-    if (searchTerm !== "") {
-      let filtered = func.filter((item: any) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredFuncs(filtered);
-    } else {
-      setFilteredFuncs(func);
-    }
-  }, [searchTerm, func]);
-
-  const toPage = (ref: string) => {
-    // navigate(ref);
-    setSearchTerm("");
-  };
-
   return (
     <>
       <div className="h-20  fixed  flex pr-20 shadow-md  w-full bg-white ">
@@ -133,9 +72,9 @@ export default function HeaderAD() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -144,14 +83,14 @@ export default function HeaderAD() {
               placeholder="Type to search..."
               type="text"
               className="border-transparent w-[500px] h-8 text-base py- bg-transparent "
-              value={searchTerm}
-              onChange={handleSearch}
+              // value={searchTerm}
+              // onChange={handleSearch}
             />
           </div>
-
+          {/* 
           {searchTerm !== "" && (
             <ul className="absolute w-[50%] bg-white border-solid border-stone-200 border-t-0 max-h-80 top-16 left-16 rounded-b-md p-2 overflow-y-auto">
-              {filteredFuncs?.map((item, index) => (
+              {filteredFuncs.map((item, index) => (
                 <li
                   key={index}
                   className="hover:bg-stone-200 p-3"
@@ -165,7 +104,7 @@ export default function HeaderAD() {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
         </div>
         {/* ---------------------------------------------------------- */}
         <div className="flex-1 flex gap-8 items-center justify-end">
@@ -179,9 +118,9 @@ export default function HeaderAD() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -199,9 +138,9 @@ export default function HeaderAD() {
               stroke="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
               />
             </svg>
@@ -249,8 +188,8 @@ export default function HeaderAD() {
                   <div className="absolute w-full top-full bg-stone-50 origin-top opacity-0 hidden flex-col group-hover/bouton:flex group-hover/bouton:opacity-100 transition-all  min-w-60 right-0">
                     {/* child */}
 
-                    <div
-                      // href={"detailAcc"}
+                    <a
+                      href={"detailAcc"}
                       className="relative w-full py-3 px-10 hover:bg-stone-300  flex items-center gap-2"
                     >
                       <svg
@@ -258,11 +197,11 @@ export default function HeaderAD() {
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
-                        stroke-width="2"
+                        strokeWidth="2"
                         stroke="currentColor"
                         fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         {" "}
                         <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -270,18 +209,18 @@ export default function HeaderAD() {
                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                       </svg>
                       <p className="text-base text-black">My Profile</p>
-                    </div>
+                    </a>
                     <div className="relative w-full py-3 px-10 hover:bg-stone-300  flex items-center gap-2 border-solid border-b-stone-200 border-x-transparent border-t-transparent border-b-[1px]">
                       <svg
                         className="h-6 w-6 text-slate-500"
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
-                        stroke-width="2"
+                        strokeWidth="2"
                         stroke="currentColor"
                         fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         {" "}
                         <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -300,11 +239,11 @@ export default function HeaderAD() {
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
-                        stroke-width="2"
+                        strokeWidth="2"
                         stroke="currentColor"
                         fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         {" "}
                         <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -320,7 +259,6 @@ export default function HeaderAD() {
           </div>
         </div>
       </div>
-      {/* delete modal */}
       {checkDelete && (
         <div className="addModal">
           {/* modal delete */}
@@ -361,13 +299,13 @@ export default function HeaderAD() {
                           className="h-6 w-6 text-red-600"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
+                          strokeWidth="1.5"
                           stroke="currentColor"
                           aria-hidden="true"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
                           />
                         </svg>
@@ -411,11 +349,9 @@ export default function HeaderAD() {
           </div>
         </div>
       )}
-      {/* delete modal */}
+      {/* login modal */}
       {checkLogin && (
-        <div className=" addModal">
-          {/* modal delete */}
-
+        <div className="addModal">
           <div
             className={`relative ${checkLogin ? "z-[1]" : "z-[-1]"}`}
             aria-labelledby="modal-title"
@@ -452,13 +388,13 @@ export default function HeaderAD() {
                           className="h-6 w-6 text-red-600"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
+                          strokeWidth="1.5"
                           stroke="currentColor"
                           aria-hidden="true"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
                           />
                         </svg>

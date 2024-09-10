@@ -1,20 +1,22 @@
 import React from "react";
 import Image from "next/image";
+import imgStyles from "@/styles/users/home.module.scss";
 export default function IntroduceWebAndUs() {
   return (
     <div className="px-20">
-      <div className="flex flex-col lg:flex-row items-center gap-8 xl:gap-14 mt-10">
-        <Image
-          src={
-            "https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          }
-          alt={""}
-          width={570}
-          height={384}
-          className="rounded-md"
-        ></Image>
-
-        <div className=" w-full">
+      <div className="flex flex-col lg:flex-row items-center gap-8  mt-20">
+        <div className="w-1/2">
+          <Image
+            src={
+              "https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            }
+            alt={""}
+            width={570}
+            height={384}
+            className={`${imgStyles.img} rounded-md`}
+          ></Image>
+        </div>
+        <div className=" w-1/2">
           <span className="inline-flex text-[#FBC77B] font-semibold text-2xl mb-3">
             Who we are
           </span>
@@ -66,6 +68,7 @@ export default function IntroduceWebAndUs() {
             src="https://images.pexels.com/photos/889545/pexels-photo-889545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt=""
             fill
+            sizes="100vw"
             className="absolute rounded-md"
           />
         </div>

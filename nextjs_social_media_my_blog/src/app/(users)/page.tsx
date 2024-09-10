@@ -1,9 +1,12 @@
 "use client";
 import FooterUS from "@/components/users/home/FooterUS";
 import HeaderUS from "@/components/users/home/HeaderUS";
+import ForYou from "@/components/users/whatNews/ForYou";
+import SideBarMain from "@/components/users/whatNews/SideBarMain";
 import { CombineType } from "@/interfaces/combineType";
 import { User } from "@/interfaces/userType";
 import { getUsers } from "@/services/users/getUsers.service";
+import { userTemplate } from "@/utils/templateUser";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +16,12 @@ type LayoutProps = {
 };
 
 export default function UserHome({ children }: LayoutProps) {
-  let [checkLock, setCheckLock] = useState<boolean>(false);
   const router = useRouter();
+
+  //todo : kiểm tra trạng thái khóa ----------------------------------------
+  let [checkLock, setCheckLock] = useState<boolean>(false);
+  //todo : kiểm tra trạng thái khóa ----------------------------------------
+
   //todo: Lấy danh sách users về từ Redux store------------------------------------
   let users = useSelector((state: CombineType) => state.users.data);
   const dispatch = useDispatch();
@@ -25,36 +32,7 @@ export default function UserHome({ children }: LayoutProps) {
   //todo: Lấy danh sách users về từ Redux store------------------------------------
 
   //todo :lấy user hiện tại-----------------------------------------------
-  let [curUserLogin, setCurUserLogin] = useState<User>({
-    id: 0,
-    role: "user",
-    status: "active",
-    userName: "",
-    name: "",
-    email: "",
-    avatar: "",
-    banner: "",
-    bio: "",
-    fav: [],
-    following: [],
-    followers: [],
-    groups: [],
-    lastLogin: "", // dd/mm/yyyy
-    password: "",
-    phoneNumber: "",
-    curAddress: {
-      city: "",
-      country: "",
-    },
-    comeFrom: {
-      country: "",
-      city: "",
-    },
-    create_at: "",
-    dob: "", // date of birth
-    notifications: [],
-    profileVisibility: "public",
-  });
+  let [curUserLogin, setCurUserLogin] = useState<User>(userTemplate);
 
   useEffect(() => {
     let curUser = localStorage.getItem("curUserLogin");
@@ -72,7 +50,7 @@ export default function UserHome({ children }: LayoutProps) {
         // Set lại sau khi tìm thấy
         if (userFound) {
           setCurUserLogin(userFound);
-          if (userFound.status === "suspended" && curUserLogin.email !== "") {
+          if (userFound.status === "banned" && curUserLogin.email !== "") {
             setCheckLock(true);
           }
         }
@@ -82,10 +60,15 @@ export default function UserHome({ children }: LayoutProps) {
     }
   }, [users]);
   //todo :lấy user hiện tại-----------------------------------------------
+
   return (
     <>
       <HeaderUS></HeaderUS>
-      {children}
+      <main className="flex gap-5  bg-[#333] pt-[70px]">
+        <SideBarMain></SideBarMain>
+        {children}
+        <ForYou></ForYou>
+      </main>
       <FooterUS></FooterUS>
       {checkLock && (
         <div className="z-[0]">
@@ -167,7 +150,7 @@ export default function UserHome({ children }: LayoutProps) {
                       className=" border-none inline-flex w-full justify-center rounded-md bg-[#333] px-3 py-2  font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto"
                       onClick={() => {
                         setCheckLock(false);
-                        // navigate("supports");
+                        router.push("/supports");
                       }}
                     >
                       Send feedback to admin

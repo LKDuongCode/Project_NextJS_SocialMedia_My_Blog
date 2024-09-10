@@ -30,6 +30,7 @@ export default function RootLayout({
         <html lang="en">
           <head>
             <title>Bloom</title>
+            <link rel="" href="./favicon.ico" />
           </head>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -1,4 +1,5 @@
 import { CombineType } from "@/interfaces/combineType";
+import { Post } from "@/interfaces/postType";
 import { User } from "@/interfaces/userType";
 import { addToPosts } from "@/services/posts/addPosts";
 import { getPosts } from "@/services/posts/getPosts.service";
@@ -57,6 +58,7 @@ export default function AddingStatus() {
   const tempalateWritingStatus = {
     create_at: getCurrentDateFormatted(),
     user_id: curUserLogin.id,
+    display: true,
     content: {
       title: "",
       media: {

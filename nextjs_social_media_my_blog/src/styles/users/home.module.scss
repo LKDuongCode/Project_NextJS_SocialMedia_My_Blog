@@ -1,0 +1,5 @@
+.img {
+  width: 100%; /* Hoặc bạn có thể đặt chiều rộng cụ thể */
+  height: auto; /* Đảm bảo chiều cao tự động để giữ tỷ lệ khung hình */
+  object-fit: cover; /* Nếu bạn muốn ảnh bao phủ toàn bộ khu vực chứa */
+}

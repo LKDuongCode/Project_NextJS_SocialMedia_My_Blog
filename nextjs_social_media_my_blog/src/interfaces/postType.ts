@@ -1,5 +1,6 @@
 export type Post = {
   id: number;
+  display: boolean;
   create_at: string;
   user_id: number;
   content: {

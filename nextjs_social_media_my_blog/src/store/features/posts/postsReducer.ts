@@ -1,5 +1,7 @@
+import { Post } from "@/interfaces/postType";
 import { addToPosts } from "@/services/posts/addPosts";
 import { getPosts } from "@/services/posts/getPosts.service";
+import { hideAPost, showAPost } from "@/services/posts/hideShow_posts.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 // khởi tạo
@@ -36,6 +38,20 @@ const postsReducer = createSlice({
       .addCase(addToPosts.fulfilled, (state, action) => {
         //thêm mới
         state.data = [...state.data, action.payload];
+      })
+      .addCase(hideAPost.fulfilled, (state, action) => {
+        //ẩn bài viết
+        let updatedPost = action.payload;
+        state.data = state.data.map((post: Post) =>
+          post.id === updatedPost.id ? updatedPost : post
+        );
+      })
+      .addCase(showAPost.fulfilled, (state, action) => {
+        //hiện bài viết
+        let updatedPost = action.payload;
+        state.data = state.data.map((post: Post) =>
+          post.id === updatedPost.id ? updatedPost : post
+        );
       });
   },
 });
