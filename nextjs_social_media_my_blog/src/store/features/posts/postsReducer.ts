@@ -1,5 +1,5 @@
+import { addToPosts } from "@/services/posts/addPosts";
 import { getPosts } from "@/services/posts/getPosts.service";
-import { addToUsers } from "@/services/users/addUsers.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 // khởi tạo
@@ -12,7 +12,7 @@ let initPosts: any = {
 //toàn bộ hàm xử lí được lấy từ folder service.
 //tạo function quản lí
 const postsReducer = createSlice({
-  name: "users",
+  name: "posts",
   initialState: initPosts,
   reducers: {},
   extraReducers: (builder) => {
@@ -33,8 +33,8 @@ const postsReducer = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(addToUsers.fulfilled, (state, action) => {
-        //thêm mới user
+      .addCase(addToPosts.fulfilled, (state, action) => {
+        //thêm mới
         state.data = [...state.data, action.payload];
       });
   },

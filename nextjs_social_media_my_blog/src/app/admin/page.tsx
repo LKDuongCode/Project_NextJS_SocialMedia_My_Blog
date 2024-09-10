@@ -1,6 +1,7 @@
 // app/admin/layout.tsx
-import FooterAd from "@/components/admin/home/FooterAd";
+
 import HeaderAd from "@/components/admin/home/HeaderAd";
+import FooterUS from "@/components/users/home/FooterUS";
 import { ReactNode } from "react";
 
 type LayoutProps = {
@@ -12,7 +13,7 @@ export default function AdminLayout({ children }: LayoutProps) {
     <>
       <HeaderAd></HeaderAd>
       <main>{children}</main>
-      <FooterAd></FooterAd>
+      <FooterUS></FooterUS>
     </>
   );
 }

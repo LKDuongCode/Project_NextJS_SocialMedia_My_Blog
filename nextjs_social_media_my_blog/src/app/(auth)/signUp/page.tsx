@@ -133,8 +133,6 @@ export default function SignUp() {
       sessionStorage.setItem("signUpData", JSON.stringify(curSignUp));
       router.push("/login");
     }, 1500);
-
-    // navigate("/usersLogin", { state: curSignUp });
   };
 
   // todo : hàm xử lí đăng kí--------------------------------------------------------------------------

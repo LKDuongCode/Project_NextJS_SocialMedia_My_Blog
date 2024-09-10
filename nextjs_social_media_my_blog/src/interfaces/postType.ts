@@ -5,7 +5,7 @@ export type Post = {
   content: {
     title: string;
     media: {
-      type: "image" | "video";
+      type: "image" | "video" | "none";
       url: string;
     };
   };

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "@/services/users/getUsers.service";
 import { CombineType } from "@/interfaces/combineType";
 import { User } from "@/interfaces/userType";
+import { userTemplate } from "@/utils/templateUser";
 export default function HeaderUS() {
   // điều hướng
   const router = useRouter();
@@ -24,36 +25,7 @@ export default function HeaderUS() {
   //todo : lấy dữ liệu redux -----------------------------------------
 
   //todo :lấy user hiện tại-----------------------------------------------
-  let [curUserLogin, setCurUserLogin] = useState<User>({
-    id: 0,
-    role: "user",
-    status: "active",
-    userName: "",
-    name: "",
-    email: "",
-    avatar: "",
-    banner: "",
-    bio: "",
-    fav: [],
-    following: [],
-    followers: [],
-    groups: [],
-    lastLogin: "", // dd/mm/yyyy
-    password: "",
-    phoneNumber: "",
-    curAddress: {
-      city: "",
-      country: "",
-    },
-    comeFrom: {
-      country: "",
-      city: "",
-    },
-    create_at: "",
-    dob: "", // date of birth
-    notifications: [],
-    profileVisibility: "public",
-  });
+  let [curUserLogin, setCurUserLogin] = useState<User>(userTemplate);
 
   useEffect(() => {
     let curUser = localStorage.getItem("curUserLogin");
@@ -94,7 +66,7 @@ export default function HeaderUS() {
 
   return (
     <section className="fixed w-full z-40">
-      <header>
+      <header className="border-b-4 border-solid border-[#535353]">
         <nav className=" border-gray-200 px-4 lg:px-6 py-2.5 bg-[#333]">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <a
@@ -140,30 +112,13 @@ export default function HeaderUS() {
                 <div className="text-center text-white hover:text-indigo-400 transition relative">
                   <div className="text-2xl">
                     <svg
-                      className="h-6 w-6 text-slate-200"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      {" "}
-                      <circle cx="11" cy="11" r="8" />{" "}
-                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="text-center text-white hover:text-indigo-400 transition relative">
-                  <div className="text-2xl">
-                    <svg
                       className="size-6 text-slate-200"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -186,9 +141,9 @@ export default function HeaderUS() {
                     </div>
                   </div>
                   {/* dropdown */}
-                  <div className="absolute w-52 -left-10 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
+                  <div className="absolute w-52 -left-10 top-full  shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible pt-5">
                     <a
-                      className="flex items-center px-5 py-2 hover:bg-gray-100 transition gap-5"
+                      className="flex items-center px-5 py-2 hover:bg-gray-100 bg-white transition gap-5"
                       href={"profile"}
                     >
                       <svg
@@ -196,11 +151,11 @@ export default function HeaderUS() {
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
-                        stroke-width="2"
+                        strokeWidth="2"
                         stroke="currentColor"
                         fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         {" "}
                         <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -212,15 +167,15 @@ export default function HeaderUS() {
                         Profile
                       </span>
                     </a>
-                    <a className="flex items-center px-6 py-2 hover:bg-gray-100 transition gap-5">
+                    <a className="flex items-center px-6 py-2 hover:bg-gray-100 bg-white transition gap-5">
                       <svg
                         className="h-6 w-6 text-indigo-500"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         {" "}
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />{" "}
@@ -232,18 +187,18 @@ export default function HeaderUS() {
                     </a>
                     <div
                       onClick={handleLogout}
-                      className="flex items-center px-6 py-2 hover:bg-gray-100 transition gap-5 cursor-pointer"
+                      className="flex items-center px-6 py-2 hover:bg-gray-100 bg-white transition gap-5 cursor-pointer"
                     >
                       <svg
                         className="h-6 w-6 text-indigo-500"
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
-                        stroke-width="2"
+                        strokeWidth="2"
                         stroke="currentColor"
                         fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         {" "}
                         <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -263,13 +218,17 @@ export default function HeaderUS() {
               className=" justify-between items-center flex :w-auto lg:order-1 pl-32"
               id="mobile-menu-2"
             >
-              <a
-                href="#"
-                className="block py-2 text-[#fbc77b] rounded  lg:bg-transparent  lg:p-0 text-3xl font-extrabold font-mono text-center  "
-                aria-current="page"
-              >
-                Welcome to the Bloom community
-              </a>
+              {checkLogin ? (
+                <div></div>
+              ) : (
+                <a
+                  href="#"
+                  className="block py-2 text-[#fbc77b] rounded  lg:bg-transparent  lg:p-0 text-3xl font-extrabold font-mono text-center  "
+                  aria-current="page"
+                >
+                  Welcome to the Bloom community
+                </a>
+              )}
             </div>
           </div>
         </nav>
@@ -315,13 +274,13 @@ export default function HeaderUS() {
                           className="h-6 w-6 text-red-600"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
+                          strokeWidth="1.5"
                           stroke="currentColor"
                           aria-hidden="true"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
                           />
                         </svg>
